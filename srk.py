@@ -52,7 +52,6 @@ def greedy_set_cover(universe, subsets, epsilon):
     subsets_copy = subsets.copy() 
     
     uni_set = set(universe)
-    # https://www.cs.dartmouth.edu/~ac/Teach/CS105-Winter05/Notes/wan-ba-notes.pdf
     while len(uni_set)>rem_num: # 0:
     #    print("uni_set length", len(uni_set))
         max_inter = -1

@@ -121,7 +121,6 @@ if noise_flag==True and online_fraction>0.6:
         start_time = time.time() 
         alg_time = 0
         online_num = X_test.shape[0]
-        # 这里 online_fraction 设置为固定的0.6
         for instance_id in range(int((online_num-1)*0.6)):
             # print("beexplain_id:", instance_id)
             current_insid = instance_id
