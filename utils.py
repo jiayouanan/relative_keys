@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Sat Jun 17 21:19:51 2023
-
-@author: lenovo
-"""
 
 import yaml
 import csv
@@ -12,7 +7,7 @@ import os
 def check_exp(data_df, beexplain_id, final_subsets):
     beexplain_value = data_df.loc[beexplain_id]
     df = data_df.copy()
-    
+
     for key in final_subsets:
         #  print(key)
         df = df.loc[(df[key] == beexplain_value[key])]
@@ -28,19 +23,15 @@ def alg_config_parse(filename='config.yaml'):
         except yaml.YAMLError as exc:
             print(exc)
 
-# 集合距离（Set Distance）：这个距离等于两个集合中不相交元素的数量。
-def set_distance(list1, list2):
-    return len(set(list1) ^ set(list2))  # ^ 表示异或操作
 
+def set_distance(list1, list2):
+    return len(set(list1) ^ set(list2))  
 
 
 def select_features(feature_scores, level=0.8):
-    # 按照得分绝对值从高到低排序
     sorted_scores = sorted(feature_scores, key=lambda x: abs(x[1]), reverse=True)
-
     total_score = sum([abs(score) for _, score in sorted_scores])
 
-    # 选择特征
     selected_features = []
     accumulated_score = 0
     for feature, score in sorted_scores:
@@ -53,7 +44,6 @@ def select_features(feature_scores, level=0.8):
 
 
 def compute_con_acc(df, instance_value, feature_list):
-    # specified_row = df.loc[instance_id]
     specified_row = instance_value
 
     mask_same_features = (df[feature_list] == specified_row[feature_list]).all(axis=1)
