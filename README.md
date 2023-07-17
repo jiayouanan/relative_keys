@@ -75,6 +75,6 @@ We must set noise_flag=True in the `config.yaml`.
 python main_indicator.py
 ```
 
-### redis interface
+### 3 redis interface
 We have also developed a very simple interface `redis_inter.py` to redis to receive data from redis. 
 Make sure the redis server is turned on.
