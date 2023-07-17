@@ -25,29 +25,52 @@ python preprocess.py
 With the trained model and the inference set, we can test the algorithm. Make sure the corresponding folder exists.
 
 ### 2.1 test srk
+
+To test SRK, run below script:
+
 ```
 python main_srk.py
 ```
 
+The average results will be printed on the command console, and the specific explanations for each instance will be stored in the `results` folder.
+
 ### 2.2 test osrk
+
+To test OSRK, run below script:
+
 ```
 python main_osrk.py
 ```
 
+The average results will be printed on the command console, and the specific explanations for each instance will be stored in the `results` folder.
+
 ### 2.3 test ssrk
+
+To test SSRK, run below script:
+
 ```
 python main_ssrk.py
 ```
 
+The average results will be printed on the command console, and the specific explanations for each instance will be stored in the `results` folder.
+
+
 ### 2.4 test dynamic performance
+
+To evaluate the capability in explaining dynamic models that change over time during model inference, run below script:
+
 ```
 python main_dynamic_nosignal.py
 ```
 
 ### 2.5 test the effectiveness of monitoring ML performance
+
+As an application of relative key monitoring, OSRK can be used to monitor the performance (accuracy) of blackbox ML during model serving.
+
 ```
 python main_indicator.py
 ```
 
+### redis interface
 We have also developed a very simple interface `redis_inter.py` to redis to receive data from redis. 
 Make sure the redis server is turned on.
