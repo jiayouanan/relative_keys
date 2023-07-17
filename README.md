@@ -63,9 +63,13 @@ To evaluate the capability in explaining dynamic models that change over time du
 python main_dynamic_nosignal.py
 ```
 
+The average results will be printed on the command console.
+
 ### 2.5 test the effectiveness of monitoring ML performance
 
-As an application of relative key monitoring, OSRK can be used to monitor the performance (accuracy) of blackbox ML during model serving.
+As an application of relative key monitoring, OSRK can be used to monitor the performance (accuracy) of blackbox ML during model serving. 
+
+We must set noise_flag=True in the `config.yaml`.
 
 ```
 python main_indicator.py
