@@ -175,7 +175,7 @@ for beexplain_id in range(data_df.shape[0]):
         if len(C-covered_set)>epsilon*len(C):
 
             wj = cal_wj(sample_subsets, a) 
-            alg_start_time = time.time()
+            alg_start_time = time.time() * 1000
             if wj < 1 and a in input_set:    
                 k = findK(wj)
                 modified_tuples = weight_augment(sample_subsets,a,k)        
@@ -186,7 +186,7 @@ for beexplain_id in range(data_df.shape[0]):
                 final_subsets,updated_phi_vector,input_set,sample_subsets = addAtmost4LogNSets(final_subsets, sample_subsets, modified_tuples, math.floor(max_no),wj * math.pow(2,k),wj,updated_phi_vector, phi_vector,input_set)              
                 end = time.time()
                 
-                alg_time += time.time()-alg_start_time
+                alg_time += time.time()* 1000-alg_start_time
                 phi_vector = copy.deepcopy(updated_phi_vector)
                 
     final_subset_name = []
@@ -207,11 +207,28 @@ for beexplain_id in range(data_df.shape[0]):
         check_exp(data_df.loc[0:data_df.shape[0], :], beexplain_id, final_subset_name)
         
         
-print("min size:", np.min(exp_s))
-print("max size:", np.max(exp_s))
-print("mean size:",  round(np.min(exp_s), 3))
-print("min time:", round(np.min(s_time), 3))
-print("max time:", round(np.max(s_time), 3))
-print("mean time:", round(np.mean(s_time), 3))
+
+print("*"*20)     
+print("min_size:", np.min(exp_s))
+print("max_size:", np.max(exp_s))
+print("mean_size:", round(np.mean(exp_s),2))
+
+print("min_time:", round(np.min(s_time), 2))
+print("max_time:", round(np.max(s_time), 2))
+print("mean_time:", round(np.mean(s_time), 2)) 
+
 print("mean_precision:", round(np.mean(acc_s), 3)) 
-print("mean_conformity:", round(np.mean(consistency_s), 3))            
+
+print("mean_conformity:", round(np.mean(consistency_s), 3)) 
+
+print("relative keys:", res_dict)       
+
+
+# store results
+dir_path = "results"  
+if not os.path.exists(dir_path):
+    os.makedirs(dir_path)
+key_df = pd.DataFrame.from_dict(res_dict, orient='index')
+key_df.columns = ['feature' + str(i+1) for i in range(key_df.shape[1])]
+res_df = pd.concat([data_df.loc[0:sample_num-1, :], key_df], axis=1)
+res_df.to_csv('results/ssrk_'+datasetsname+'.csv')  

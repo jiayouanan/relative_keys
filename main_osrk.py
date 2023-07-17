@@ -5,7 +5,7 @@ import time
 import pandas as pd
 import osrk as osc
 from utils import alg_config_parse, compute_con_acc
-
+import os
 
 alg_dict = alg_config_parse('config.yaml')            
 datasetsname = alg_dict['datasetsname']
@@ -45,7 +45,7 @@ for beexplain_id in range(data_df.shape[0]):
     # Initializing
     final_subsets, cover_elements, sample_subsets_weight = osc.ini_rand_sc(data_df, X, Y, sample_subsets)
     
-    start_time = time.time() 
+    start_time = time.time() * 1000
     alg_time = 0
     online_num = data_df.shape[0]
     for instance_id in range(int((online_num-1)*online_fraction)):
@@ -64,7 +64,7 @@ for beexplain_id in range(data_df.shape[0]):
                     cover_elements.add(current_insid)                  
         alg_start_time = time.time() 
         final_subsets = osc.rand_sc(epsilon, current_insid, universe_set, cover_elements, sample_subsets, sample_subsets_weight, final_subsets)
-        alg_time += time.time()-alg_start_time
+        alg_time += time.time() * 1000 - alg_start_time
      
     res_dict[beexplain_id] = final_subsets
     exp_s[beexplain_id] = len(final_subsets)  
@@ -75,13 +75,27 @@ for beexplain_id in range(data_df.shape[0]):
     acc_s[beexplain_id] = acc
 
 
-print("min size:", np.min(exp_s))
-print("max size:", np.max(exp_s))
-print("mean size:",  round(np.min(exp_s), 3))
-print("min time:", round(np.min(s_time), 3))
-print("max time:", round(np.max(s_time), 3))
-print("mean time:", round(np.mean(s_time), 3))
+print("*"*20)     
+print("min_size:", np.min(exp_s))
+print("max_size:", np.max(exp_s))
+print("mean_size:", round(np.mean(exp_s),2))
+
+print("min_time:", round(np.min(s_time), 2))
+print("max_time:", round(np.max(s_time), 2))
+print("mean_time:", round(np.mean(s_time), 2)) 
+
 print("mean_precision:", round(np.mean(acc_s), 3)) 
+
 print("mean_conformity:", round(np.mean(consistency_s), 3)) 
 
+print("relative keys:", res_dict)
 
+
+# store results
+dir_path = "results"  
+if not os.path.exists(dir_path):
+    os.makedirs(dir_path)
+key_df = pd.DataFrame.from_dict(res_dict, orient='index')
+key_df.columns = ['feature' + str(i+1) for i in range(key_df.shape[1])]
+res_df = pd.concat([data_df.loc[0:sample_num-1, :], key_df], axis=1)
+res_df.to_csv('results/osrk_'+datasetsname+'.csv')

@@ -7,7 +7,7 @@ import srk as sc
 import pickle
 import time
 from xgboost import XGBClassifier
-from utils import alg_config_parse, check_exp, set_distance, select_features, compute_con_acc, compute_recall
+from utils import alg_config_parse, compute_con_acc, compute_recall
 
 alg_dict = alg_config_parse('config.yaml')            
 datasetsname = alg_dict['datasetsname']
@@ -120,12 +120,12 @@ for instance_id in selected_indices:
     for x in X:
         subsets[x] = set(diff_set_dict[x][instance_value[x]])
      
-    start_time = time.time()
+    start_time = time.time() * 1000
     cover_sets = sc.greedy_set_cover(universe, subsets, epsilon)
     
     res_dict[instance_id] = cover_sets
     exp_s[np.where(selected_indices == instance_id)[0][0]] = len(cover_sets)  
-    s_time[np.where(selected_indices == instance_id)[0][0]] = time.time() - start_time
+    s_time[np.where(selected_indices == instance_id)[0][0]] = time.time() * 1000 - start_time
     
     consistency, acc = compute_con_acc(instance_batch, instance_value, cover_sets)
     consistency_s[np.where(selected_indices == instance_id)[0][0]] = consistency

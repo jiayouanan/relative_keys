@@ -54,7 +54,7 @@ for beexplain_id in range(X_test.shape[0]):
     universe_set = set()
     final_subsets, cover_elements, sample_subsets_weight = osc.ini_rand_sc(X_test, X_name, Y_name, sample_subsets)
     
-    start_time = time.time() 
+    start_time = time.time() * 1000
     alg_time = 0
     online_num = X_test.shape[0]
     for current_insid in range(int((online_num)*online_fraction)):
@@ -67,9 +67,9 @@ for beexplain_id in range(X_test.shape[0]):
                 sample_subsets[feature_name].add(current_insid)
                 if feature_name in final_subsets:
                     cover_elements.add(current_insid)                  
-        alg_start_time = time.time() 
+        alg_start_time = time.time() * 1000
         final_subsets = osc.rand_sc(epsilon, current_insid, universe_set, cover_elements, sample_subsets, sample_subsets_weight, final_subsets)
-        alg_time += time.time()-alg_start_time
+        alg_time += time.time() * 1000-alg_start_time
      
     res_dict[beexplain_id] = final_subsets
     exp_s[beexplain_id] = len(final_subsets)  
@@ -103,7 +103,7 @@ if noise_flag==True and online_fraction>0.6:
         best_model.load_model(model_file_path)
         
     print("*"*20)
-    print("test nosiy case")
+    print("test nosiy case************************")
     res_noise_dict = {}
     s_noise_time = np.zeros(sample_num+1, dtype='float')
     exp_s_noise = np.zeros(sample_num+1, dtype='int')
@@ -121,6 +121,7 @@ if noise_flag==True and online_fraction>0.6:
         start_time = time.time() 
         alg_time = 0
         online_num = X_test.shape[0]
+        # 这里 online_fraction 设置为固定的0.6
         for instance_id in range(int((online_num-1)*0.6)):
             # print("beexplain_id:", instance_id)
             current_insid = instance_id
@@ -134,9 +135,9 @@ if noise_flag==True and online_fraction>0.6:
                     if feature_name in final_subsets:
                         cover_elements.add(current_insid)
                         
-            alg_start_time = time.time() 
+            alg_start_time = time.time() * 1000
             final_subsets = osc.rand_sc(epsilon, current_insid, universe_set, cover_elements, sample_subsets, sample_subsets_weight, final_subsets)
-            alg_time += time.time()-alg_start_time
+            alg_time += time.time()* 1000-alg_start_time
         
         #%% Add noise to the last 40% of the data
         X_test_new = X_test.iloc[int(X_test.shape[0]*0.6):]  
@@ -175,9 +176,9 @@ if noise_flag==True and online_fraction>0.6:
                     if feature_name in final_subsets:
                         cover_elements.add(current_insid)
                         
-            alg_start_time = time.time() 
+            alg_start_time = time.time() * 1000
             final_subsets = osc.rand_sc(epsilon, current_insid, universe_set, cover_elements, sample_subsets, sample_subsets_weight, final_subsets)
-            alg_time += time.time()-alg_start_time
+            alg_time += time.time()* 1000-alg_start_time
             
         res_noise_dict[beexplain_id] = final_subsets
         exp_s_noise[beexplain_id] = len(final_subsets)  
