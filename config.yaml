@@ -1,5 +1,5 @@
 datasetsname: recidivism
-epsilon: 0  # 1-alpha, e.g. set it to 0.02
+epsilon: 0  # 1-alpha by default. when 0.98-alpha, set it to 0.02
 model_num: 5 # model numbers
 multiclass: false # Control whether it is a multiclass dataset
 noise_flag: false # for monotoring ML model only
