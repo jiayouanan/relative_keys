@@ -41,7 +41,7 @@ python main_ssrk.py
 python main_dynamic_nosignal.py
 ```
 
-### 2.5 test the performance of monitoring explanations
+### 2.5 test the effectiveness of monitoring ML performance
 ```
 python main_indicator.py
 ```
