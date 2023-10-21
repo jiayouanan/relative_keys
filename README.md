@@ -75,6 +75,16 @@ We must set noise_flag=True in the `config.yaml`.
 python main_indicator.py
 ```
 
-### 3 redis interface
+### 3 test entity matching
+
+To generate and evaluate the keys for entity matching task, run
+
+```
+python test_er.py
+```
+
+We use the `certa` package to train the Ditto model. Make sure first install the `certa` package. 
+
+### 4 redis interface
 We have also developed a very simple interface `redis_inter.py` to redis to receive data from redis. 
 Make sure the redis server is turned on.
